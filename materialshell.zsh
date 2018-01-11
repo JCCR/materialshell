@@ -7,16 +7,19 @@ eval cyan=$fg[cyan]
 eval white=$fg[white]
 eval grey=$fg[grey]
 
-PROMPT='$(_user_host)${_current_dir}$(git_prompt_info)
-%{$white%}>%{$reset_color%} '
-PROMPT2='%{$grey%}◀%{$reset_color%} '
-RPROMPT='$(_vi_status)%{$(echotc UP 1)%}$(git_remote_status) $(git_prompt_short_sha) ${_return_status} %{$white%}%T%{$(echotc DO 1)%}%{$reset_color%}'
-
-local _current_dir="%{$green%}%0~%{$reset_color%} "
 local _return_status="%{$red%}%(?..×)%{$reset_color%}"
 
+PROMPT='$(_user_host)$(_current_dir)$(git_prompt_info)
+%{$grey%}❯%{$reset_color%} '
+PROMPT2='%{$grey%}◀%{$reset_color%} '
+RPROMPT='$(_vi_status)%{$(echotc UP 1)%}$(git_remote_status) $(git_prompt_short_sha) ${_return_status} %{$grey%}%T%{$(echotc DO 1)%}%{$reset_color%}'
+
 function _user_host() {
-  echo "%{$red%}%n%{$reset_color%}%{$white%} at %{$yellow%}%m%{$reset_color%} %{$white%}in "
+  echo "%{$red%}%n%{$reset_color%}%{$white%} at %{$green%}%m%{$reset_color%} %{$white%}in "
+}
+
+function _current_dir() {
+  echo "%{$yellow%}$(shrink_path -f)%{$reset_color%} "
 }
 
 function _vi_status() {
@@ -38,8 +41,8 @@ ZSH_THEME_GIT_PROMPT_SUFFIX="%{$reset_color%} "
 
 ZSH_THEME_GIT_PROMPT_DIRTY=" %{$red%}✗%{$reset_color%}"
 ZSH_THEME_GIT_PROMPT_CLEAN=" %{$green%}✔%{$reset_color%}"
-ZSH_THEME_GIT_PROMPT_BEHIND_REMOTE="%{$red%}⬇%{$reset_color%}"
-ZSH_THEME_GIT_PROMPT_AHEAD_REMOTE="%{$green%}⬆%{$reset_color%}"
+ZSH_THEME_GIT_PROMPT_BEHIND_REMOTE="%{$red%}⇣%{$reset_color%}"
+ZSH_THEME_GIT_PROMPT_AHEAD_REMOTE="%{$green%}⇡%{$reset_color%}"
 ZSH_THEME_GIT_PROMPT_DIVERGED_REMOTE="%{$yellow%}⬌%{$reset_color%}"
 
 # Format for git_prompt_long_sha() and git_prompt_short_sha()
